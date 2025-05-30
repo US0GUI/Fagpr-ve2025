@@ -1,0 +1,114 @@
+﻿@page
+@model Fagprøve.Pages.WeatherNowModel
+@{
+    ViewData["Title"] = "Været Nå";
+
+    // Egentlig burde denne kanskje ligge i en helperklasse, men funker greit
+    string TranslateSymbol(string symbol)
+    {
+        var symbolRenset = symbol.Replace("_day", "").Replace("_night", "");
+
+        // Oversetter API-symboler til mer menneskelige beskrivelser
+        switch (symbolRenset)
+        {
+            case "clearsky": return "Klarvær";
+            case "fair": return "Pent vær";
+            case "partlycloudy": return "Delvis skyet";
+            case "cloudy": return "Skyet";
+            case "fog": return "Tåke";
+            case "lightrainshowers": return "Lette regnbyger";
+            case "rainshowers": return "Regnbyger";
+            case "heavyrainshowers": return "Kraftige regnbyger";
+            case "lightsnowshowers": return "Lette snøbyger";
+            case "snowshowers": return "Snøbyger";
+            case "heavysnowshowers": return "Kraftige snøbyger";
+            case "lightrain": return "Lett regn";
+            case "rain": return "Regn";
+            case "heavyrain": return "Kraftig regn";
+            case "lightsnow": return "Lett snø";
+            case "snow": return "Snø";
+            case "heavysnow": return "Kraftig snø";
+            case "sleet": return "Sludd";
+            case "thunderstorm": return "Tordenvær";
+
+            default:
+                return symbolRenset.Replace('_', ' '); // fallback hvis det er noe ukjent
+        }
+    }
+}
+
+<style>
+    /* Litt mørk stil for å fremheve kontrast */
+    .weather-container {
+        background-color: rgba(0, 0, 0, 0.5);
+        max-width: 400px;
+        width: 100%;
+        border-radius: 8px;
+        padding: 20px;
+        text-align: center;
+        margin: 40px auto;
+        color: white;
+        font-family: 'Segoe UI', sans-serif;
+    }
+
+    .weather-container img {
+        width: 80px;
+        height: 80px;
+        margin: 0 auto 10px auto;
+        display: block;
+    }
+</style>
+
+<div class="weather-container">
+    <h1>Været Nå</h1>
+
+    @if (Model.Weather != null)
+    {
+        <img src=@($"https://api.met.no/images/weathericons/png/{Model.Weather.SymbolCode}.png") alt="Værsymbol" />
+        <p style="text-transform: capitalize; margin-top: 0;">
+            @TranslateSymbol(Model.Weather.SymbolCode)
+        </p>
+
+        <p><strong>Lokasjon:</strong> @Model.LocationName</p>
+        <p><strong>Tid:</strong> @Model.Weather.Time.ToString("dd.MM.yyyy HH:mm")</p>
+        <p><strong>Temperatur:</strong> @Model.Weather.Temperature °C</p>
+        <p><strong>Skydekke:</strong> @Model.Weather.CloudCoverage %</p>
+        <p><strong>Luftfuktighet:</strong> @Model.Weather.Humidity %</p>
+    }
+    else
+    {
+        <p>Henter værdata... (kan ta noen sekunder)</p>
+    }
+</div>
+
+@section Scripts {
+    <script>
+        // Bruker lokasjon for å gi vær for din posisjon (hvis tillatt)
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function (pos) {
+                    const lat = pos.coords.latitude;
+                    const lon = pos.coords.longitude;
+
+                    const url = new URL(window.location.href);
+                    if (!url.searchParams.has("lat")) {
+                        window.location.href = `/weathernow?lat=${lat}&lon=${lon}`;
+                    }
+                },
+                function () {
+                    // fallback til Oslo hvis bruker blokkerer posisjon
+                    const url = new URL(window.location.href);
+                    if (!url.searchParams.has("lat")) {
+                        window.location.href = `/weathernow?lat=59.91&lon=10.75`;
+                    }
+                }
+            );
+        } else {
+            // fallback om nettleseren ikke støtter lokasjon
+            const url = new URL(window.location.href);
+            if (!url.searchParams.has("lat")) {
+                window.location.href = `/weathernow?lat=59.91&lon=10.75`;
+            }
+        }
+    </script>
+}

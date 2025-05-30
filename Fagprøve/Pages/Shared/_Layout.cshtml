@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="no">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"] - Fagprøve</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    @RenderSection("Scripts", required: false)
+    <style>
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background: linear-gradient(145deg, #1b1f2a, #2e3b55);
+            color: #f0f0f0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        header {
+            background-color: #12151e;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .nav-link {
+            color: #cbd3ff !important;
+        }
+
+            .nav-link:hover {
+                text-decoration: underline;
+                color: #ffffff !important;
+            }
+
+        main.container {
+            flex: 1 0 auto;
+            padding-top: 20px;
+        }
+
+        footer {
+            flex-shrink: 0;
+            background-color: #12151e;
+            color: #bbb;
+        }
+
+        h1, h2, h3 {
+            color: #dce3ff;
+        }
+
+        a {
+            color: #a8baff;
+        }
+
+            a:hover {
+                color: #ffffff;
+            }
+    </style>
+</head>
+<body>
+    @{
+        var hour = DateTime.Now.Hour;
+        var isDay = hour >= 6 && hour < 20;
+        var emoji = isDay ? "☀️" : "🌙";
+    }
+    <header class="p-3">
+        <div class="container">
+            <h1 class="mb-3">@emoji Fagprøve App</h1>
+            <nav>
+                <ul class="nav nav-pills">
+                    <li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/weathernow">Været Nå</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/privacy">Privacy</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="container">
+        @RenderBody()
+    </main>
+    <footer class="text-center p-3 mt-4">
+        &copy; 2025 Fagprøve
+    </footer>
+</body>
+</html>

@@ -1,0 +1,64 @@
+﻿@page
+@model IndexModel
+@{
+    // Hjemmesiden til prosjektet - prøver å holde det ryddig her
+    ViewData["Title"] = "Hjem";
+}
+
+<div class="welcome-container text-center mt-5">
+    <h2>Hei og velkommen til fagprøven 👋</h2>
+    <p class="lead">Ta en titt på valgene under for mer info:</p>
+
+    <div class="links mt-4">
+        <a href="/weathernow" class="btn btn-primary mx-2">Været Nå</a>
+        <a href="/WeeklyWeather" class="btn btn-success mx-2">Ukens Vær</a>
+        <a href="/WeatherAnalysis" class="btn btn-success mx-2">Væranalyse</a>
+        <a href="/privacy" class="btn btn-secondary mx-2">Personvern</a>
+    </div>
+
+    <p class="mt-4">
+        Litt info: denne lille webappen henter værdata fra Meteorologisk institutt – bruker Razor Pages og litt API-magi.
+    </p>
+</div>
+
+<style>
+    .welcome-container {
+        max-width: 600px;
+        margin: 0 auto;
+        background-color: rgba(255, 255, 255, 0.08);
+        padding: 28px;
+        border-radius: 14px;
+        box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .btn-primary {
+        background-color: #4a90e2;
+        border-color: #4a90e2;
+    }
+
+        .btn-primary:hover {
+            background-color: #357abd;
+            border-color: #357abd;
+        }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+    }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+            border-color: #5a6268;
+        }
+
+    /* Grønn knapp for "Ukens vær" - kanskje burde endres senere */
+    .btn-success {
+        background-color: #28a745;
+        border-color: #28a745;
+    }
+
+        .btn-success:hover {
+            background-color: #218838;
+            border-color: #1e7e34;
+        }
+</style>
