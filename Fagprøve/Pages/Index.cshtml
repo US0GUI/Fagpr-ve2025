@@ -1,12 +1,12 @@
 ﻿@page
 @model IndexModel
 @{
-    // Hjemmesiden til prosjektet - prøver å holde det ryddig her
+    // Hjemmesiden til prosjektet prøver å holde det ryddig her
     ViewData["Title"] = "Hjem";
 }
 
-<div class="welcome-container text-center mt-5">
-    <h2>Hei og velkommen til fagprøven 👋</h2>
+<div class="card text-center mt-5 mx-auto" style="max-width: 600px;">
+    <h2>Velkommen til fagprøven 👋</h2>
     <p class="lead">Ta en titt på valgene under for mer info:</p>
 
     <div class="links mt-4">
@@ -17,20 +17,11 @@
     </div>
 
     <p class="mt-4">
-        Litt info: denne lille webappen henter værdata fra Meteorologisk institutt – bruker Razor Pages og litt API-magi.
+        Litt info: denne webappen henter værdata fra Meteorologisk institutt og bruker Razor Pages og eget API.
     </p>
 </div>
 
 <style>
-    .welcome-container {
-        max-width: 600px;
-        margin: 0 auto;
-        background-color: rgba(255, 255, 255, 0.08);
-        padding: 28px;
-        border-radius: 14px;
-        box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
-    }
-
     .btn-primary {
         background-color: #4a90e2;
         border-color: #4a90e2;

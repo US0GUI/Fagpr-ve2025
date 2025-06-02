@@ -37,29 +37,7 @@
     }
 }
 
-<style>
-    /* Litt mørk stil for å fremheve kontrast */
-    .weather-container {
-        background-color: rgba(0, 0, 0, 0.5);
-        max-width: 400px;
-        width: 100%;
-        border-radius: 8px;
-        padding: 20px;
-        text-align: center;
-        margin: 40px auto;
-        color: white;
-        font-family: 'Segoe UI', sans-serif;
-    }
-
-    .weather-container img {
-        width: 80px;
-        height: 80px;
-        margin: 0 auto 10px auto;
-        display: block;
-    }
-</style>
-
-<div class="weather-container">
+<div class="card text-center mt-5 mx-auto" style="max-width: 320px;">
     <h1>Været Nå</h1>
 
     @if (Model.Weather != null)

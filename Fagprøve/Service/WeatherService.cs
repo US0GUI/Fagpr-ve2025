@@ -6,7 +6,7 @@ using MyProject.Data;
 public class WeatherService
 {
     private readonly HttpClient _httpClient;
-    private const string UserAgent = "FagproeveApp/1.0 (alex@proweb.no)";
+    private const string UserAgent = "FagproveApp/1.0 (contact: alex@proweb.no)";
 
     public WeatherService(HttpClient httpClient)
     {

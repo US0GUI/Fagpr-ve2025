@@ -3,14 +3,11 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// ✅ Legg til Razor Pages og nødvendige tjenester
 builder.Services.AddRazorPages();
 builder.Services.AddAuthorization();
 builder.Services.AddHttpClient<WeatherService>();
 builder.Services.AddTransient<WeatherService>();
 
-// ✅ Legg til DB
-// ✅ Legg til DB med WAL-støtte
 builder.Services.AddDbContext<WeatherContext>(options =>
     options.UseSqlite("Data Source=weather.db",
         sqliteOptions => sqliteOptions.MigrationsAssembly(typeof(WeatherContext).Assembly.FullName))
@@ -18,7 +15,6 @@ builder.Services.AddDbContext<WeatherContext>(options =>
 
 var app = builder.Build();
 
-// ** Test database: legg til og hent ut data **
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<WeatherContext>();
@@ -45,7 +41,6 @@ using (var scope = app.Services.CreateScope())
         Console.WriteLine($"{entry.CityName} - {entry.Temperature} °C");
     }
 }
-// ** Ferdig med test **
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

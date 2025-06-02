@@ -4,15 +4,29 @@
     ViewData["Title"] = "Personvernerklæring";
 }
 
-<h1>@ViewData["Title"]</h1>
+<h1 class="title text-center mb-4">🛡️ @ViewData["Title"]</h1>
 
-<p>
-    Mer informasjon vil bli lagt til på senere tidspunkt
-</p>
-<p>
-    Værdata hentes fra <a href="https://api.met.no/" target="_blank">MET API</a> og brukes i henhold til deres retningslinjer.
-</p>
+<div class="card text-start">
+    <p>
+        Denne applikasjonen henter og lagrer værdata fra
+        <a href="https://api.met.no/" target="_blank">MET sitt åpne API</a>, og følger deres retningslinjer for bruk.
+    </p>
 
-<p>
-    Har du spørsmål, kontakt <a href="mailto:alex@proweb.no">alex@proweb.no</a>.
-</p>
+    <h2 class="mt-4">📦 Hva lagres?</h2>
+    <ul>
+        <li><strong>Posisjon:</strong> By- eller stedsnavn brukeren søker etter</li>
+        <li><strong>Tidspunkt:</strong> Når værdataene ble hentet</li>
+    </ul>
+
+    <h2 class="mt-4">🔐 Personvern</h2>
+    <p>
+        Det lagres ingen personopplysninger, IP-adresser eller sensitive data.
+        All informasjon brukes kun for visning av lokal værstatistikk i applikasjonen.
+    </p>
+
+    <h2 class="mt-4">📨 Kontakt</h2>
+    <p>
+        Har du spørsmål om hvordan data behandles, ta kontakt på
+        <a href="mailto:alex@proweb.no">alex@proweb.no</a>.
+    </p>
+</div>
