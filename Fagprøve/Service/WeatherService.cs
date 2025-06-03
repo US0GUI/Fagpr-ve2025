@@ -16,8 +16,9 @@ public class WeatherService
     // Henter været akkurat nå standard fallback til oslo
     public async Task<WeatherNow> GetWeatherNowAsync(double lat = 59.91, double lon = 10.75)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get,
-            $"https://api.met.no/weatherapi/locationforecast/2.0/compact?lat={lat}&lon={lon}");
+        var url = $"https://api.met.no/weatherapi/locationforecast/2.0/compact?lat={lat.ToString(CultureInfo.InvariantCulture)}&lon={lon.ToString(CultureInfo.InvariantCulture)}";
+
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add("User-Agent", UserAgent);
 
         var response = await _httpClient.SendAsync(request);
@@ -55,17 +56,19 @@ public class WeatherService
         };
     }
 
+
     // Henter bynavn fra koordinater
     public async Task<string> GetCityNameAsync(double lat, double lon)
     {
-        var url = $"https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat={lat}&lon={lon}";
+        var url = $"https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat={lat.ToString(CultureInfo.InvariantCulture)}&lon={lon.ToString(CultureInfo.InvariantCulture)}";
+
         var request = new HttpRequestMessage(HttpMethod.Get, url);
-        request.Headers.Add("User-Agent", UserAgent);
+        request.Headers.Add("User-Agent", UserAgent); // må settes for Nominatim
 
         var response = await _httpClient.SendAsync(request);
+
         if (!response.IsSuccessStatusCode)
         {
-            // fallback visning
             return $"Lat: {lat:F2}, Lon: {lon:F2}";
         }
 
@@ -74,22 +77,23 @@ public class WeatherService
 
         if (doc.RootElement.TryGetProperty("address", out var address))
         {
-            if (address.TryGetProperty("city", out var city))
-                return city.GetString();
-            if (address.TryGetProperty("town", out var town))
-                return town.GetString();
-            if (address.TryGetProperty("village", out var village))
-                return village.GetString();
+            if (address.TryGetProperty("city", out var city)) return city.GetString();
+            if (address.TryGetProperty("town", out var town)) return town.GetString();
+            if (address.TryGetProperty("village", out var village)) return village.GetString();
+            if (address.TryGetProperty("municipality", out var municipality)) return municipality.GetString();
+            if (address.TryGetProperty("county", out var county)) return county.GetString();
+            if (address.TryGetProperty("state", out var state)) return state.GetString();
         }
 
-        return $"Lat: {lat:F2}, Lon: {lon:F2}"; // fallback
+        return $"Lat: {lat:F2}, Lon: {lon:F2}";
     }
 
     // Hent ukesprognose med nedbør
     public async Task<List<WeatherNow>> GetWeeklyForecastAsync(double lat = 59.91, double lon = 10.75)
     {
-        var request = new HttpRequestMessage(HttpMethod.Get,
-            $"https://api.met.no/weatherapi/locationforecast/2.0/compact?lat={lat}&lon={lon}");
+        var url = $"https://api.met.no/weatherapi/locationforecast/2.0/compact?lat={lat.ToString(CultureInfo.InvariantCulture)}&lon={lon.ToString(CultureInfo.InvariantCulture)}";
+
+        var request = new HttpRequestMessage(HttpMethod.Get, url);
         request.Headers.Add("User-Agent", UserAgent);
 
         var response = await _httpClient.SendAsync(request);
@@ -172,13 +176,13 @@ public class WeatherService
                 break;
         }
 
-        // Søndag til slutt  bare så det ser ryddig ut
         weeklyForecast = weeklyForecast
             .OrderBy(d => d.Time.DayOfWeek == DayOfWeek.Sunday ? 7 : (int)d.Time.DayOfWeek)
             .ToList();
 
         return weeklyForecast;
     }
+
 
     // Hent lat/lon basert på bynavn
     public async Task<(double lat, double lon)> GetCoordinatesFromCityAsync(string city)
